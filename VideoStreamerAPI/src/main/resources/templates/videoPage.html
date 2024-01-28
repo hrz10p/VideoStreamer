@@ -3,11 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Video</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
 </head>
-<body>
-    <video id="video" th:type = "${video.contentType}" th:src = "@{'http://localhost:8080/api/video/partial/' + ${video.id}}"  controls>
-        <!-- The source element will be dynamically added using JavaScript -->
-        Your browser does not support the video tag.
-    </video>
+<body class="bg-light">
+<div class="container">
+    <h1 class="mt-5">Video Player</h1>
+    <a class="btn btn-primary mt-3" href="/videos">Home</a>
+    <div class="card mt-4">
+        <div class="card-body">
+            <div class="embed-responsive embed-responsive-16by9">
+                <video id="video" class="embed-responsive-item" th:type="${video.contentType}"
+                       th:src="@{'http://localhost:8080/api/video/partial/' + ${video.id}}" controls autoplay>
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS and Popper.js -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-U7rzi/RJz8U9SJp7CL5jk6rIQ4cTE6XS5tk9iMVm6uiKK5Ni91OcpqkytJpkZUZc"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjUEdIeywoNUE1zBywUQbWSVNU9Pa8d"
+        crossorigin="anonymous"></script>
 </body>
 </html>

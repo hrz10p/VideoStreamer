@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Upload Video</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
+</head>
+<body class="bg-light">
+<div class="container">
+  <h1 class="mt-5">Upload Video</h1>
+
+  <!-- Form for uploading a video -->
+  <form id = "uploadForm" action="/api/video/upload" method="post" enctype="multipart/form-data" class="mt-4">
+    <!-- Video file input -->
+    <div class="form-group">
+      <label for="videoFile">Choose Video File:</label>
+      <input type="file" class="form-control-file" id="videoFile" name="video" accept="video/*" required>
+    </div>
+
+    <!-- Description input -->
+    <div class="form-group">
+      <label for="description">Video Description:</label>
+      <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+    </div>
+
+    <!-- Preview file input -->
+    <div class="form-group">
+      <label for="previewFile">Choose Preview File:</label>
+      <input type="file" class="form-control-file" id="previewFile" name="preview" accept="image/*" required>
+    </div>
+
+    <!-- Submit button -->
+    <button type="submit" class="btn btn-primary">Upload</button>
+  </form>
+</div>
+
+<!-- Bootstrap JS and Popper.js -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-U7rzi/RJz8U9SJp7CL5jk6rIQ4cTE6XS5tk9iMVm6uiKK5Ni91OcpqkytJpkZUZc"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjUEdIeywoNUE1zBywUQbWSVNU9Pa8d"
+        crossorigin="anonymous"></script>
+
+<script>
+  document.getElementById('uploadForm').addEventListener('submit', function (event) {
+    // Prevent the default form submission
+    event.preventDefault();
+
+    // Create a new FormData object to capture the form data
+    var formData = new FormData(this);
+
+    // Use fetch to submit the form data to the API endpoint
+    fetch('/api/video/upload', {
+      method: 'POST',
+      body: formData
+    })
+            .then(response => {
+              if (response.ok) {
+                // If the response is successful, redirect to the success page
+                window.location.href = '/videos'
+              } else {
+                // Handle errors if needed
+                console.error('Error uploading video:', response.statusText);
+              }
+            })
+            .catch(error => {
+              // Handle fetch error
+              console.error('Error fetching:', error);
+            });
+  });
+</script>
+</body>
+</html>

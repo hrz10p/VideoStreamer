@@ -10,22 +10,18 @@
 <body>
 
 <div class="container">
-    <h1>Video Streamer API</h1>
-
+    <h1>Video pages</h1>
+    <a class="btn btn-primary mt-3" href="/upload">Upload video</a>
     <div class="row">
-        <!-- Iterate over videos and create a Bootstrap card for each -->
         <div th:each="video : ${videos}" class="col-md-3 mb-4">
             <div class="card">
-                <!-- Video name -->
                 <div class="card-body">
                     <h5 class="card-title" th:text="${video.name}"></h5>
                 </div>
-                <!-- Thumbnail image with a link to watch the video -->
                 <a th:href="@{'http://localhost:8080/watch/' + ${video.id}}">
                     <img th:src="@{'http://localhost:8080/api/video/preview/' + ${video.id}}"
                          alt="Frame from video" class="card-img-top">
                 </a>
-                <!-- Video description -->
                 <div class="card-body">
                     <p class="card-text" th:text="${video.description}"></p>
                 </div>
