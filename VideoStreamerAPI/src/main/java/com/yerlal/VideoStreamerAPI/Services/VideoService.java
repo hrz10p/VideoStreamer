@@ -8,6 +8,8 @@ import com.yerlal.VideoStreamerAPI.models.VideoData;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpRange;
@@ -45,11 +47,11 @@ public class VideoService {
         this.videoDataRepository = videoDataRepository;
     }
 
+    @Cacheable(value = "all_video_reprs", key = "'all'")
     public List<VideoRepr> getAllReprs() {
-
-        List<VideoData> l = videoDataRepository.findAll();
-
-        return l.stream().map(this::getVideoRepr).toList();
+        List<VideoData> videoDataList = videoDataRepository.findAll();
+        log.info("{}",videoDataList);
+        return videoDataList.stream().map(this::getVideoRepr).toList();
     }
 
     public ByteArrayResource getPreview(String id) throws IOException {
@@ -68,6 +70,7 @@ public class VideoService {
         return videoRepr;
     }
 
+    @Cacheable(value = "video_reprs", key = "#id")
     public VideoRepr getByID(String id) {
         Optional<VideoData> data = videoDataRepository.findById(UUID.fromString(id));
         if(data.isEmpty()) {
@@ -78,6 +81,7 @@ public class VideoService {
     }
 
     @Transactional
+    @CacheEvict(value = "all_video_reprs", allEntries = true)
     public void save(VideoDTO dto) throws IOException {
         VideoData data = new VideoData();
 
